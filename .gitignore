@@ -1,0 +1,14 @@
+/target/
+.classpath
+.project
+/.settings/
+/.idea/*
+!/.idea/runConfigurations
+*.iml
+/war
+gwt-unitCache/
+bin
+.metadata/
+Servers/
+rebel*.xml
+/.rebel.xml.bak
