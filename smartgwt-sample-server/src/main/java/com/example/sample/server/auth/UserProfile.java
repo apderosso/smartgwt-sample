@@ -8,23 +8,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 /**
  * A trivial Spring Security UserDetails implementation.
  */
+@Data
+@RequiredArgsConstructor
 public final class UserProfile implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    String username;
-    String password;
-
-    Set<String> authorities = new HashSet<>();
-
-    public UserProfile(final String username, final String password, final Set<String> authorities) {
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-    }
+    private final String      username;
+    private final String      password;
+    private final Set<String> authorities;
 
     @Override
     public boolean isEnabled() {
@@ -44,16 +42,6 @@ public final class UserProfile implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return true;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override

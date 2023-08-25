@@ -1,24 +1,16 @@
 package com.example.sample.client.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 /**
  * A simple name/value pair representing the current CSRF token
  */
+@Data
+@AllArgsConstructor
 final class AuthenticityToken {
 
-    String name;
-    String value;
-
-    public AuthenticityToken(final String name, final String value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getValue() {
-        return value;
-    }
+    private final String name;
+    private final String value;
 
 }

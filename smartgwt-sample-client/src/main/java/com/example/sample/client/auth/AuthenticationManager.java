@@ -126,7 +126,7 @@ public final class AuthenticationManager {
 
         if (token != null) {
             final HashMap<String, String> params = new HashMap<>();
-            params.put(token.name, token.value);
+            params.put(token.getName(), token.getValue());
             logout.setParams(params);
         }
 

@@ -30,7 +30,6 @@ public class ReloginSupportFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final HttpSession session = httpRequest.getSession();
 
@@ -44,7 +43,6 @@ public class ReloginSupportFilter extends GenericFilterBean {
     }
 
     private boolean isRememberMeAuthenticated() {
-
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return false;
