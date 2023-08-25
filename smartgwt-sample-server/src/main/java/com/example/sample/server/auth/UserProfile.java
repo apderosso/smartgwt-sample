@@ -18,15 +18,15 @@ public final class UserProfile implements UserDetails {
     String username;
     String password;
 
-    Set<String> authorities = new HashSet<String>();
+    Set<String> authorities = new HashSet<>();
 
-    public UserProfile(String username, String password, Set<String> authorities) {
-	    	this.username = username;
-	    	this.password = password;
-	    	this.authorities = authorities;
-	}
+    public UserProfile(final String username, final String password, final Set<String> authorities) {
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
 
-	@Override
+    @Override
     public boolean isEnabled() {
         return true;
     }
@@ -55,14 +55,15 @@ public final class UserProfile implements UserDetails {
     public String getPassword() {
         return password;
     }
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> granted = new HashSet<GrantedAuthority>();
+        final Set<GrantedAuthority> granted = new HashSet<>();
 
-        for (String authority : authorities) {
+        for (final String authority : authorities) {
             granted.add(new SimpleGrantedAuthority(authority));
         }
         return granted;
     }
+
 }

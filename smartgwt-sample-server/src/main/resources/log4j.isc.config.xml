@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-    
+
     <appender class="org.apache.log4j.ConsoleAppender" name="STDOUT">
         <param name="encoding" value="UTF-8"/>
         <layout class="org.apache.log4j.PatternLayout">
@@ -17,7 +17,7 @@
             <param name="ConversionPattern" value="=== %d [%.4t] %-5p %c{1} - %m%n"/>
         </layout>
     </appender>
-    
+
     <!-- This appender is used by the "Server Logs" tab in the Developer Console. -->
     <appender class="com.isomorphic.log.RevolvingMemoryAppender" name="SmartClientLog">
         <param name="maxEntries" value="1000"/>
@@ -25,7 +25,7 @@
             <param name="ConversionPattern" value="=== %d [%.4t] %-5p %c{1} - %m%n"/>
         </layout>
     </appender>
-    
+
     <!-- isomorphic log messages -->
     <!-- The STDOUT appender defined above is set as the default appender for all Isomorphic
          SmartClient server logging.  It should typically be visible in the console from which
@@ -144,11 +144,11 @@
     <category name="org.hibernate.SQL">
         <priority value="DEBUG"/>
     </category>
-    
+
     <category name="DataNucleus">
         <priority value="WARN"/>
     </category>
-    
+
     <!-- shows values bound to params in SQL query, but produces a lot of output -->
     <!--
         <category name="org.hibernate.type">
@@ -156,7 +156,7 @@
             <appender-ref ref="STDOUT"/>
         </category>
     -->
-      
+
     <!-- 
         For simplicity, application-level logging is included here alongside framework 
         configurations.  Please refer to the ServerLogging documentation topic for further 

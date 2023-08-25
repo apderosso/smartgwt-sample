@@ -15,48 +15,52 @@
 
 package com.example.sample.server.hsqldb;
 
+import static org.hsqldb.Database.CLOSEMODE_NORMAL;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import org.hsqldb.Server;
-import static org.hsqldb.Database.CLOSEMODE_NORMAL;
 
 /**
- * A ServletContextListener that just starts and stops the sample HSQL database server with the web application.
- * Unnecessary, of course, when using other than the sample database.
+ * A ServletContextListener that just starts and stops the sample HSQL database server with the web application. Unnecessary, of course, when using other than
+ * the sample database.
  */
 @WebListener
 public class HSQLServletContextListener implements ServletContextListener {
-    
+
     private static final String DATA_DIR_PROPERTY = "/WEB-INF/db/samples";
-    private static final String DB_CLASSICMODELS = "classicmodels";
-    private static final String DB_ISOMORPHIC = "isomorphic";
-    
-    private Server server = new Server();
-    
-    public void contextInitialized(ServletContextEvent sce) {
+    private static final String DB_CLASSICMODELS  = "classicmodels";
+    private static final String DB_ISOMORPHIC     = "isomorphic";
+
+    private final Server server = new Server();
+
+    @Override
+    public void contextInitialized(final ServletContextEvent sce) {
 
         try {
-            
-            ServletContext context = sce.getServletContext();
 
-            String path = context.getRealPath(DATA_DIR_PROPERTY);
+            final ServletContext context = sce.getServletContext();
 
-            server.setDatabaseName(0, DB_CLASSICMODELS); 
-            server.setDatabasePath(0, path + "/" + DB_CLASSICMODELS); 
-            server.setDatabaseName(1, DB_ISOMORPHIC); 
-            server.setDatabasePath(1, path + "/" + DB_ISOMORPHIC); 
+            final String path = context.getRealPath(DATA_DIR_PROPERTY);
 
-            server.start();    
+            server.setDatabaseName(0, DB_CLASSICMODELS);
+            server.setDatabasePath(0, path + "/" + DB_CLASSICMODELS);
+            server.setDatabaseName(1, DB_ISOMORPHIC);
+            server.setDatabasePath(1, path + "/" + DB_ISOMORPHIC);
 
-        } catch (Exception e) {
+            server.start();
+
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void contextDestroyed(ServletContextEvent sce) {
-    	server.shutdownWithCatalogs(CLOSEMODE_NORMAL);
+    @Override
+    public void contextDestroyed(final ServletContextEvent sce) {
+        server.shutdownWithCatalogs(CLOSEMODE_NORMAL);
     }
+
 }

@@ -48,11 +48,11 @@
                                         is-multi-valued="true"/> -->
     <!-- <extend-configuration-property name="scriptInjector.pageRelativeModulePath"
                                         value="sample=sample"/> -->
-  
-  
-  <entry-point class='com.example.sample.client.sampleEntryPoint' />
 
-  <source path='client' />
-  <source path='shared' />
+
+    <entry-point class='com.example.sample.client.SampleEntryPoint'/>
+
+    <source path='client'/>
+    <source path='shared'/>
 
 </module>
