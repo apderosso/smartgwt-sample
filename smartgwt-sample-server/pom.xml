@@ -18,9 +18,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.gwt</groupId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>smartgwt-sample-shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject</groupId>
             <artifactId>gwt-servlet</artifactId>
-            <version>${gwt.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
