@@ -18,6 +18,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://git.aa-bts.com/api/v4/groups/3/-/packages/maven</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
