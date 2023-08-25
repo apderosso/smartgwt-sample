@@ -53,12 +53,14 @@
     <beans:bean id="reloginCsrfSupport" class="com.example.sample.server.auth.ReloginSupportFilter"/>
 
     <beans:bean id="userProfileService" class="com.example.sample.server.auth.UserProfileService"/>
-    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <!--    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>-->
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
 
     <beans:bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <beans:property name="userDetailsService" ref="userProfileService"/>
         <!-- Example passwords are stored in plain text -->
         <!-- <beans:property name="passwordEncoder" ref="passwordEncoder" /> -->
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
     </beans:bean>
 
     <authentication-manager>

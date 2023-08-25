@@ -12,10 +12,6 @@
     <artifactId>smartgwt-sample-server</artifactId>
     <packaging>war</packaging>
 
-    <properties>
-        <spring.version>4.2.4.RELEASE</spring.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -37,12 +33,10 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <!-- Use SQLDataSources -->
@@ -58,6 +52,11 @@
             <artifactId>isomorphic-network</artifactId>
             <version>${smartgwt.version}</version>
             <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.isomorphic.smartgwt.enterprise</groupId>
+            <artifactId>isomorphic-spring</artifactId>
         </dependency>
 
         <!-- Toolbox -->
@@ -140,13 +139,12 @@
                         <plugin>
                             <groupId>org.eclipse.jetty</groupId>
                             <artifactId>jetty-maven-plugin</artifactId>
-                            <version>9.4.31.v20200723</version>
                             <configuration>
                                 <webApp>
-                                    <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-                                        <resourcesAsCSV>${project.basedir}/src/main/webapp,${project.parent.build.directory}/gwt/launcherDir/</resourcesAsCSV>
-                                    </baseResource>
-                                    <jettyEnvXml>${project.basedir}/src/etc/jetty/jetty-env.xml</jettyEnvXml>
+                                    <resourceBases>
+                                        <resourceBase>${project.basedir}/src/main/webapp</resourceBase>
+                                        <resourceBase>${project.parent.build.directory}/gwt/launcherDir/</resourceBase>
+                                    </resourceBases>
                                 </webApp>
                             </configuration>
                         </plugin>

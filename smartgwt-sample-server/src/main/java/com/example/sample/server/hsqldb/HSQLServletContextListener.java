@@ -39,7 +39,6 @@ public class HSQLServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(final ServletContextEvent sce) {
-
         try {
 
             final ServletContext context = sce.getServletContext();
@@ -52,7 +51,6 @@ public class HSQLServletContextListener implements ServletContextListener {
             server.setDatabasePath(1, path + "/" + DB_ISOMORPHIC);
 
             server.start();
-
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }

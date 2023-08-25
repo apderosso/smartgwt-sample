@@ -22,9 +22,7 @@ public final class UserProfileService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-
         try {
-
             // get the user account
             final DSRequest userAccountRequest = new DSRequest("User", DataSource.OP_FETCH);
             userAccountRequest.addToCriteria("username", DefaultOperators.Equals, username);

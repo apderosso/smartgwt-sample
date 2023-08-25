@@ -25,7 +25,7 @@
             <classifier>sources</classifier>
         </dependency>
 
-        <!-- Standard GWT depdendency -->
+        <!-- Standard GWT dependency -->
         <dependency>
             <groupId>org.gwtproject</groupId>
             <artifactId>gwt-user</artifactId>
@@ -39,7 +39,6 @@
         <dependency>
             <groupId>com.isomorphic.smartgwt.enterprise</groupId>
             <artifactId>smartgwt-enterprise</artifactId>
-            <version>${smartgwt.version}</version>
         </dependency>
 
         <!-- Application Toolbox -->
@@ -58,6 +57,7 @@
                 <configuration>
                     <moduleName>com.example.sample.sample</moduleName>
                     <moduleShortName>sample</moduleShortName>
+                    <deploy>${project.build.directory}/${project.build.finalName}/WEB-INF/deploy</deploy>
                 </configuration>
             </plugin>
         </plugins>
