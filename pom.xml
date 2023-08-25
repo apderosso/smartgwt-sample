@@ -9,6 +9,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>smartgwt-sample-client</module>
+        <module>smartgwt-sample-server</module>
+        <module>smartgwt-sample-shared</module>
+    </modules>
+
     <properties>
         <gwt.version>2.8.2</gwt.version>
         <smartgwt.version>13.0-p20230818</smartgwt.version>
@@ -94,9 +100,6 @@
             </plugins>
         </pluginManagement>
     </build>
-    <modules>
-        <module>smartgwt-sample-client</module>
-        <module>smartgwt-sample-server</module>
-    </modules>
+
 
 </project>
