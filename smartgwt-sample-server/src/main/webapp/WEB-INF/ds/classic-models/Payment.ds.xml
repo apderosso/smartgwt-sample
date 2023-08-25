@@ -1,0 +1,20 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+    ID="Payment"
+	tableName="payments">
+	
+	<!-- 
+	  Customers make payments (by check) on average 2-3 weeks after they place an order. 
+	  In some cases one check covers more than 1 order.
+	 -->
+	 
+	<fields>
+		<field name="customerNumber" title="Customer" type="int" primaryKey="true"
+			foreignKey="Customer.customerNumber" 
+			displayField="customerName" />
+		<field name="customerName" type="int" includeFrom="Customer.customerName" hidden="true" />
+		<field name="checkNumber" type="text" length="50" primaryKey="true" />
+		<field name="paymentDate" type="date" required="true" />
+		<field name="amount" type="float" decimalPad="2" decimalPrecision="2" required="true" />
+	</fields>
+	
+</DataSource>

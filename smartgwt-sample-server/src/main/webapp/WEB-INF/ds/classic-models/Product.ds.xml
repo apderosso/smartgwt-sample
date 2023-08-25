@@ -1,0 +1,40 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+	ID="Product"
+	tableName="products">
+	
+	<!--
+	  Classic Models Inc. sells 110 unique models which they purchase from 13 vendors. The models are classified as 7 distinct product lines: 
+	  
+	    Classic Cars, Vintage Cars, Motorcycles, Trucks and Buses, Planes, Ships, Trains. 
+	  
+	  Additionally models are classified based on their scale (e.g. 1:18, 1:72 etc.). For each product the price at which the product was purchased 
+	  from the vendor (buyPrice) as well as the product’s MSRP are provided. The average MSRP is $100 ranging from $33 to $214. The MSRP price is on 
+	  average 45% (30% to 60%) above the buyPrice.
+	 -->
+	
+	<fields>
+		<field name="productCode" type="text" length="15" primaryKey="true" />
+		<field name="productName" type="text" length="70" required="true" />
+		<field name="productLine" type="text" length="50" required="true"
+			   foreignKey="ProductLine.productLine">
+		</field>
+		<field name="productScale" type="enum" length="10" required="true">
+			<valueMap>
+				<value>1:10</value>
+				<value>1:12</value>
+				<value>1:18</value>
+     			<value>1:24</value>
+				<value>1:32</value>
+				<value>1:50</value>
+				<value>1:72</value>
+				<value>1:700</value>
+			</valueMap>
+		</field>
+		<field name="productVendor" type="text" length="50" required="true" />
+		<field name="productDescription" type="text" length="4000" required="true" />
+		<field name="quantityInStock" type="integer" required="true" />
+		<field name="buyPrice" type="float" decimalPad="2" decimalPrecision="2" required="true" />
+		<field name="msrp" title="MSRP" type="float" decimalPad="2" decimalPrecision="2" required="true" />
+	</fields>
+	
+</DataSource>

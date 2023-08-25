@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='sample'>
+
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.common.base.Base"/>
+    <inherits name="com.google.common.collect.Collect"/>
+
+    <!-- Import com.smartgwt.tools.SmartGwtTools (for the Developer Console) -->
+    <inherits name="com.smartgwt.tools.SmartGwtTools"/>
+
+    <!-- Import standard modules -->
+    <inherits name="com.smartgwtee.SmartGwtEE"/>
+
+    <!--
+      Include a handful of commonly used optional modules.
+     -->
+    <inherits name="com.smartgwt.Charts"/>
+
+    <!--
+         Uncomment to enable SmartGWT tools support.  Note that you may also need to add the
+         corresponding isomorphic-tools dependency if you intend to use e.g., the AdminConsole.
+         Refer to the 'Tools Deployment' documentation topic.
+     -->
+    <!-- <inherits name="com.smartgwtee.tools.Tools"/> -->
+
+    <!-- Uncomment lines below for GWT Super Dev Mode Support in GWT versions before 2.7.0:
+       - both lines needed for GWT < 2.6, only the first line needed for GWT 2.6.x
+       - see http://www.smartclient.com/docs/release/a/b/c/go.html#group..debugging -->
+    <!-- <add-linker name="xsiframe" />                                             -->
+    <!-- <set-configuration-property name="devModeRedirectEnabled" value="true" />  -->
+
+    <!-- Uncomment lines below for GWT "stack emulation" with file/line number info -->
+    <!-- <set-property               name="compiler.stackMode"  value="emulated" /> -->
+    <!-- <set-configuration-property name="compiler.emulatedStack.recordFileNames"
+                                     value="true" />                                -->
+    <!-- <set-configuration-property name="compiler.emulatedStack.recordLineNumbers"
+                                     value="true" />                                -->
+
+    <!-- Uncomment the lines below in GWT 2.7+ to enable configuring of the path of the module
+         relative to the main HTML page.  By default for our sample projects, the main page is
+         directly in the root (war) directory above the module directory, so the relative
+         path is just the module (directory) name.
+
+         The syntax is <moduleName>=<relative path> as the example binding below illustrates.
+         Multiple bindings can be added to support multiple modules inheriting this module file. 
+    -->
+    <!-- <define-configuration-property name="scriptInjector.pageRelativeModulePath"
+                                        is-multi-valued="true"/> -->
+    <!-- <extend-configuration-property name="scriptInjector.pageRelativeModulePath"
+                                        value="sample=sample"/> -->
+  
+  
+  <entry-point class='com.example.sample.client.sampleEntryPoint' />
+
+  <source path='client' />
+  <source path='shared' />
+
+</module>

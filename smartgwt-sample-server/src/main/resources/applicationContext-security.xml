@@ -1,0 +1,71 @@
+<beans:beans  
+    xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation=
+	   "http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<!-- 
+	   Spring security access control configuration.  Some guidelines:
+	
+		* Do protect the URL of your bootstrap HTML file. Unauthenticated users should be redirected to the login page when this URL is accessed.
+	
+		* Do protect the URLs that return dynamic data, for example, sc/IDACall if you are using the Smart GWT Server Framework, or the URL(s) 
+		  you configure as DataSource.dataURL if not.
+	
+		* ￼Do not protect the static resources that are part of the skin or the SmartClient runtime underlying Smart GWT, specifically the URL 
+		  patterns sc/skins/* and sc/system/*. These are publicly available files; protecting them just causes a performance hit and in some cases 
+		  can negatively affect caching
+	
+		* Consider leaving GWT-generated application logic such as *.cache.html files unprotected. These files are heavily obfuscated and analyzing 
+		  them is not a likely approach for an attacker to take. As with other static resources, not protecting these files provides a performance boost.
+	
+	 -->
+	<http use-expressions="true">
+     
+        <intercept-url pattern="/login.jsp"              access="permitAll()" />
+        <intercept-url pattern="/*.css"                  access="permitAll()" />
+        <intercept-url pattern="/*.ico"                  access="permitAll()" />
+        <intercept-url pattern="/*.cache.html"           access="permitAll()" />
+        <intercept-url pattern="/*.nocache.js"           access="permitAll()" />
+        <intercept-url pattern="/**/sc/skins/**"         access="permitAll()" />
+        <intercept-url pattern="/**/sc/system/**"        access="permitAll()" />
+        <intercept-url pattern="/**/sc/modules/**"       access="permitAll()" />
+        <intercept-url pattern="/**/sc/modules-debug/**" access="permitAll()" />
+        
+        <intercept-url pattern="/**"               access="isAuthenticated()" />
+     
+        <form-login login-page='/login.jsp'
+                    default-target-url="/index.jsp"
+                    authentication-failure-url="/login.jsp?error=LOGIN_FAILED" />
+    
+        <logout logout-success-url="/login.jsp" />
+        <access-denied-handler error-page="/login.jsp?error=ACCESS_DENIED"/>
+    
+        <!-- Use your own key to enable the remember-me feature -->
+        <remember-me key="really-secret-key" />
+        <csrf />
+
+        <custom-filter after="REMEMBER_ME_FILTER" ref="reloginCsrfSupport" />
+
+    </http>
+
+    <beans:bean id="reloginCsrfSupport" class="com.example.sample.server.auth.ReloginSupportFilter" />
+
+    <beans:bean id="userProfileService" class="com.example.sample.server.auth.UserProfileService" />
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <beans:bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="userProfileService" />
+        <!-- Example passwords are stored in plain text -->    
+        <!-- <beans:property name="passwordEncoder" ref="passwordEncoder" /> -->
+    </beans:bean>
+
+	<authentication-manager>
+		<authentication-provider ref="authenticationProvider" />
+	</authentication-manager>
+
+</beans:beans>

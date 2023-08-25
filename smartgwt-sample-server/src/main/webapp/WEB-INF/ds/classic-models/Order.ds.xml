@@ -1,0 +1,41 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+	ID="Order"
+	tableName="orders">
+	
+	<!--
+	  Customers place their orders and expect to receive them approximately within 6 to 10 days. Once an order is placed it’s assembled and shipped within 1 to 6 days (7-8 for Japan). 
+	  There are a total of 326 orders, which span the period from 1/1/2003 to 6/1/2005. Orders can be in one of these states: 
+	    
+	    In Process (the initial state for all orders), 
+	    Shipped, 
+	    Cancelled (used to indicate that the customer called to cancel the order right after the order was placed and typically before it was shipped), 
+	    Disputed (used to indicate that the customer received the order but doesn’t like it), 
+	    Resolved (used to indicate that the order was disputed, but successfully resolved) or 
+	    On Hold (used to indicate that the order will not ship until a payment is received because the customer’s credit limit has been exceeded). 
+	    
+      Approximately 93% of the orders are in the Shipped state.
+	 -->
+	
+	<fields>
+		<field name="orderNumber" type="sequence" primaryKey="true" />
+		<field name="orderDate" type="date" required="true" />
+		<field name="requiredDate" type="date" required="true" />
+		<field name="shippedDate" type="date" />
+		<field name="status" type="enum" length="15" required="true">
+			<valueMap>
+				<value>In Process</value>
+				<value>Shipped</value>
+				<value>Cancelled</value>
+				<value>Disputed</value>
+				<value>Resolved</value>
+				<value>On Hold</value>
+			</valueMap>
+		</field>
+		<field name="comments" type="text" length="16777216" />
+		<field name="customerNumber" title="Customer" type="integer" required="true" 
+			   foreignKey="Customer.customerNumber" 
+			   displayField="customerName" />
+		<field name="customerName" includeFrom="Customer.customerName" hidden="true" />
+	</fields>
+
+</DataSource>

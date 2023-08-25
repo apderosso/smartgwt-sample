@@ -1,0 +1,26 @@
+<DataSource serverType="sql" schema="PUBLIC"
+    ID="User"
+    tableName="user">
+
+    <!-- Password field marked server-only via canView attribute -->    
+    <fields>
+	    <field name="id" title="User ID" type="sequence" primaryKey="true" detail="true" />
+        <field name="username" type="text" required="true" />
+        <field name="password" type="text" required="true" canView="false" />
+        <field name="profile" type="text" />
+    </fields>
+
+    <!-- Only admins (or server code, of course) may fetch another user's profile -->
+    <operationBinding operationType="fetch" requiresRole="ADMIN" />
+
+    <!-- Any user may view his or her own account, but only his or her own account -->
+    <operationBinding operationId="fetchCurrentUser" operationType="fetch" requiresRole="">
+        <criteria fieldName="username" value="$dsRequest.userId" />
+    </operationBinding>
+
+    <!-- No create, update, or delete operations are currently exposed to the client -->
+    <operationBinding operationType="add" requires="false" />
+    <operationBinding operationType="update" requires="false" />
+    <operationBinding operationType="remove" requires="false" />
+
+</DataSource>

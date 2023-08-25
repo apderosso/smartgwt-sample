@@ -1,0 +1,23 @@
+<project name="sample" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property name="devmode.startupUrl" value="index.jsp" />
+	
+    <import file="${basedir}/build-imports.xml" as="sc" />
+
+    <target name="reify-import" depends="reify-tasklibs">
+
+        <taskdef name="reify-import" classname="com.isomorphic.maven.mojo.reify.ImportTask" classpathref="reify.classpath"/>
+        <reify-import projectName="sample" username="${username}" password="${password}" 
+                      datasourcesDir="WEB-INF/ds/classic-models" 
+                      smartclientRuntimeDir="${basedir}/war/sample/sc" />
+
+    </target>
+
+    <target name="reify-validate" depends="reify-tasklibs">
+        
+        <taskdef name="reify-validate" classname="com.isomorphic.maven.mojo.reify.ValidateTask" classpathref="reify.classpath"/>
+        <reify-validate projectName="sample" datasourcesDir="WEB-INF/ds/classic-models" 
+                        smartclientRuntimeDir="${basedir}/war/sample/sc" />
+    </target>
+
+</project>

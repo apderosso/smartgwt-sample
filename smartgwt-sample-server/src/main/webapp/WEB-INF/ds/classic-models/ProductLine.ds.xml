@@ -1,0 +1,16 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+    ID="ProductLine"
+    tableName="productLines">
+
+    <!--
+      Products are classified as 7 distinct product lines. Each product line is associated with a text description, html description as well as with an image.
+     -->
+
+    <fields>
+        <field name="productLine" type="text" length="50" primaryKey="true" />
+        <field name="textDescription" type="text" length="16777216" />
+        <field name="htmlDescription" type="text" length="4000" />
+        <field name="image" type="binary" maxFileSize="16777216" imageWidth="207" imageHeight="96" />
+    </fields>
+
+</DataSource>

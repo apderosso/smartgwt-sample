@@ -1,0 +1,29 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+	ID="Office"
+	tableName="offices">
+	
+	<!-- 
+	  Classic Models Inc. has 7 offices worldwide (San Francisco, Boston, NYC, Paris, Tokyo, Sydney, London) and is headquartered in San Francisco, CA. 
+	  Based on geography each office is assigned to a sales territory (APAC, NA, EMEA or JAPAN)
+	 -->
+	
+	<fields>
+		<field name="officeCode" type="text" length="5" primaryKey="true" />
+		<field name="city" type="text" length="50" required="true" />
+		<field name="phone" type="text" length="50" required="true" />
+		<field name="addressLine1" type="text" length="50" required="true" />
+		<field name="addressLine2" type="text" length="50"/>
+		<field name="state" type="text" length="50"/>
+		<field name="country" type="text" length="50" required="true" />
+		<field name="postalCode" type="text" length="15" required="true" />
+		<field name="territory" type="enum" length="10" required="true">
+			<valueMap>
+				<value ID="NA">North America</value>
+				<value ID="EMEA">Europe, the Middle East and Africa</value>
+				<value ID="APAC">Asia-Pacific (excluding Japan)</value>
+				<value ID="Japan">Japan only</value>
+			</valueMap>
+		</field>
+	</fields>
+	
+</DataSource>

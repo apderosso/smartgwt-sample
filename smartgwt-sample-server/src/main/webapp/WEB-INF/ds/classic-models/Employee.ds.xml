@@ -1,0 +1,36 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+    ID="Employee"
+	tableName="employees">
+
+    <fields>
+        <field name="employeeNumber" type="sequence" primaryKey="true" />
+        <field name="lastName" type="text" length="50" required="true" />
+        <field name="firstName" type="text" length="50" required="true" />
+        <field name="extension" type="text" length="10" required="true" />
+        <field name="email" type="text" length="100" required="true">
+            <validators>
+                <validator type="isUnique" />
+            </validators>
+        </field>
+        <field name="officeCode" title="Office" type="text" length="10" required="true"
+               foreignKey="Office.officeCode" joinType="outer"
+               displayField="officeLocation" />
+        <field name="officeLocation" includeFrom="Office.city" hidden="true" /> 
+
+        <field name="reportsTo" type="int" 
+               foreignKey="Employee.employeeNumber" 
+               displayField="reportsToEmployeeName" 
+               foreignDisplayField="lastName" />
+        <field name="reportsToEmployeeName" includeFrom="Employee.lastName" hidden="true" />
+
+        <field name="jobTitle" type="text" length="50" required="true" />
+    </fields>
+
+    <serverObject className="com.example.sample.server.ds.EmployeeOperations" />
+
+    <!-- Only admins may add, edit, or delete an employee -->
+    <operationBinding operationType="add" requiresRole="ADMIN" />
+    <operationBinding operationType="update" requiresRole="ADMIN" />
+    <operationBinding operationType="remove" requiresRole="ADMIN" />
+
+</DataSource>

@@ -1,0 +1,20 @@
+<DataSource serverType="sql" schema="PUBLIC"  
+    ID="UserRole"
+    tableName="roles">
+
+	<fields>
+	    <field name="pk" title="Record ID" type="sequence" primaryKey="true" />
+	    <field name="id" title="User ID" type="integer" foreignKey="Users.ID" />
+	    <field name="role" type="text" foreignKey="Roles.role" />
+	    <field name="username" type="text" tableName="user" customSQL="true" />
+	</fields>
+	
+	<operationBinding operationType="fetch" operationId="fetchByCurrentUser" customCriteriaFields="username">
+        <tableClause>
+            roles INNER JOIN user
+              ON roles.id = user.id
+        </tableClause>
+        <criteria fieldName="username" value="$dsRequest.userId" />
+    </operationBinding>
+	
+</DataSource>

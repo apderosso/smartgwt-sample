@@ -1,0 +1,30 @@
+<ivysettings>
+  
+    <property name="gwt.version" value="2.8.1"/>
+    <property name="jetty.version" value="9.4.6.v20170531"/>
+    <property name="smartgwt.version" value="13.0-p20230818"/>
+        
+    <property name="local.m2.dir" value="${user.home}/.m2/repository/" />
+
+    <!-- <property name="isc.repo.dir" value="${user.home}/downloads/smartgwtee-6.1d" /> -->
+
+	<settings defaultResolver="default" returnFirst="true" />
+	<resolvers>
+	   <chain name="default">
+	   <filesystem name="local.m2" m2compatible="true">
+	       <artifact pattern="${local.m2.dir}/[organisation]/[module]/[revision]/[module]-[revision].[ext]" />
+	       <ivy pattern="${local.m2.dir}/[organisation]/[module]/[revision]/[module]-[revision].pom" />
+	   </filesystem>
+	   <ibiblio name="central" m2compatible="true"/>
+	
+	   <!-- 
+	   <filesystem name="sdk">
+	       <ivy pattern='${isc.repo.dir}/[artifact].[ext]'/>
+	       <artifact pattern='${isc.repo.dir}/[artifact].[ext]'/>
+	   </filesystem>
+	   -->
+	
+	   </chain>
+	</resolvers>
+
+</ivysettings>

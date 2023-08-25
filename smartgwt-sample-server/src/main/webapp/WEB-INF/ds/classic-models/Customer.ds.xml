@@ -1,0 +1,36 @@
+<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels" 
+	ID="Customer"
+	tableName="customers">
+	
+	<useAnsiJoins>true</useAnsiJoins>
+
+	<!-- 
+      Classic Models Inc. has 122 customers across the world. Approximately 20 of those are 
+      brand new customers that don’t have an assigned sales rep and have not placed any orders 
+      yet. 
+      
+      Each customer has a credit limit which determines their maximum outstanding balance.
+	 -->
+	
+	<fields>
+		<field name="customerNumber" type="sequence" primaryKey="true" />
+		<field name="customerName" type="text" length="50" required="true" />
+		<field name="contactLastName" type="text" length="50" required="true" />
+		<field name="contactFirstName" type="text" length="50" required="true" />
+		<field name="phone" type="text" length="50" required="true" />
+		<field name="addressLine1" type="text" length="50" required="true"/>
+		<field name="addressLine2" type="text" length="50" />
+		<field name="city" type="text" length="50" required="true"/>
+		<field name="state" type="text" length="50" />
+		<field name="postalCode" type="text" length="15" />
+		<field name="country" type="text" length="50" required="true"/>
+		<field name="salesRepEmployeeNumber" type="integer" 
+			   foreignKey="Employee.employeeNumber" joinType="outer" 
+			   displayField="salesRepEmployeeName" foreignDisplayField="lastName" 
+			   title="Sales Rep"/>
+        <field name="salesRepEmployeeName" includeFrom="Employee.lastName" hidden="true" />
+		<field name="creditLimit" type="float" />
+		<field name="territory" includeFrom="Employee.Office.territory" />
+	</fields>
+    
+</DataSource>

@@ -1,0 +1,162 @@
+<project default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <property name="gwtmodule.short" value="sample" />
+    <property name="gwtmodule.long"  value="sample" />
+
+    <property name="devmode.startupUrl" value="index.html" />
+    
+    <property name="source.dir"     location="${basedir}/src" />
+    <property name="resources.dir"  location="${basedir}/src" />
+    <property name="webapp.dir"     location="${basedir}/war" />
+
+    <property name="lib.dir"        location="${webapp.dir}/WEB-INF/lib" />
+    <property name="classes.dir"    location="${webapp.dir}/WEB-INF/classes" />
+    <property name="war.pathname"   location="${basedir}/${gwtmodule.short}.war" />
+    
+    <property name="jetty.dir"      location="${basedir}/etc/jetty" />
+    <property name="jetty.lib"      location="${jetty.dir}/lib" />
+
+    <!-- Arguments to gwtc and devmode targets -->
+    <property name="gwt.args" value="" />
+
+    <!-- Configure path to GWT SDK -->
+    <property environment="env"/>
+    <property name="gwt.sdk" value="${env.GWT_HOME}"/>
+
+    <property name="reify.lib" value="${basedir}/build/ivy/reify/lib" />
+
+    <path id="project.classpath">
+    
+        <pathelement location="${gwt.sdk}/gwt-user.jar"/>
+        <pathelement location="${gwt.sdk}/gwt-dev.jar"/>
+        <pathelement location="${classes.dir}"/>
+    
+        <fileset dir="${lib.dir}" includes="**/*.jar" erroronmissingdir="false"/>
+        
+        <!-- Add any additional non-server libs (such as JUnit) here -->
+    </path>
+
+    <path id="jetty.classpath">
+        <fileset dir="${jetty.lib}" includes="**/*.jar"/>
+    </path>
+
+    <path id="reify.classpath">
+      <fileset dir="${reify.lib}" erroronmissingdir="false">
+        <include name="**/*.jar" />
+      </fileset>
+    </path>
+
+    <target name="libs" depends="ivy-get" description="Copy libs to WEB-INF/lib">
+        <mkdir dir="${lib.dir}" />
+        <copy todir="${lib.dir}" file="${gwt.sdk}/gwt-servlet.jar" />
+        <!-- Add any additional server libs that need to be copied -->
+    </target>
+
+    <target name="reify-tasklibs">
+        <mkdir dir="${reify.lib}" />
+        <ivy:resolve conf="reify" />
+        <ivy:retrieve conf="reify" pattern="${reify.lib}/[artifact]-[revision](-[classifier]).[ext]"/>
+    </target>
+
+    <target name="javac" depends="libs" description="Compile java source to bytecode">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${source.dir}" includes="**" encoding="utf-8"
+            destdir="${classes.dir}"
+            source="1.7" target="1.7" nowarn="true"
+            debug="true" debuglevel="lines,vars,source">
+            <classpath refid="project.classpath"/>
+        </javac>
+        <antcall target="process-resources" />
+    </target>
+
+    <target name="process-resources">
+        <copy todir="${classes.dir}">
+            <fileset dir="${resources.dir}" excludes="**/*.java" />
+        </copy>
+    </target>
+
+    <target name="gwtc" depends="javac" description="GWT compile to JavaScript (production mode)">
+        <fail unless="gwt.sdk" message="You must set the GWT_HOME environment variable to point to your GWT SDK"/>
+        <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler" maxmemory="1g">
+            <classpath>
+                <pathelement location="${source.dir}"/>
+                <path refid="project.classpath"/>
+            </classpath>
+            <arg line="-war"/>
+            <arg value="${webapp.dir}"/>
+            <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+            <arg line="${gwt.args}"/>
+            <arg value="com.example.sample.${gwtmodule.long}"/>
+        </java>
+    </target>
+
+    <target name="devmode" depends="javac" description="Run development mode (pass -Dgwt.args=-nosuperDevMode to fallback to classic DevMode)">
+        <mkdir dir="${jetty.lib}" />
+        <ivy:resolve/>
+        <ivy:retrieve conf="devmode" pattern="${jetty.lib}/[artifact]-[revision](-[classifier]).[ext]"/>
+        <copy file="${jetty.dir}/jetty-env.xml" todir="${webapp.dir}/WEB-INF" />
+        <java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode" maxmemory="1g">
+            <classpath>
+                <pathelement location="${source.dir}"/>
+                <path refid="project.classpath"/>
+                <path refid="jetty.classpath"/>
+                <pathelement location="${gwt.sdk}/gwt-codeserver.jar"/>
+            </classpath>
+            <jvmarg value="-Djava.naming.factory.initial=org.eclipse.jetty.jndi.InitialContextFactory"/>
+            <!-- https://stackoverflow.com/questions/24805360/classcastexception-org-apache-xerces-parsers-xincludeawareparserconfiguration-c  -->
+            <jvmarg value="-Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl"/>
+            <arg value="-startupUrl"/>
+            <arg value="${devmode.startupUrl}"/>
+            <arg line="-war"/>
+            <arg value="${webapp.dir}"/>
+            <!-- Additional arguments like -style PRETTY, -logLevel DEBUG or -nosuperDevMode -->
+            <arg line="${gwt.args}"/>
+            <arg value="com.example.sample.${gwtmodule.long}"/>
+        </java>
+    </target>
+
+    <target name="build" depends="gwtc" description="Build this project" />
+
+    <target name="war" depends="clean, build" description="Create a war file">
+        <zip destfile="${war.pathname}" basedir="${webapp.dir}" excludes="**/gwt-*.jar" />
+    </target>
+
+    <target name="clean" description="Cleans this project">
+        <delete dir="${classes.dir}" failonerror="false" />
+        <delete dir="${lib.dir}" failonerror="false" />
+        <delete dir="${basedir}/gwt-unitCache" failonerror="false" />
+        <delete dir="${webapp.dir}/WEB-INF/deploy" failonerror="false" />
+        <delete dir="${webapp.dir}/${gwtmodule.short}" failonerror="false" />
+
+        <delete dir="${jetty.lib}" failonerror="false" />
+        <delete file="${webapp.dir}/WEB-INF/jetty-env.xml" />
+
+        <delete file="${war.pathname}"/>
+    </target>
+
+    <!-- 
+       Dependency Management via Apache Ivy
+       -->
+    <available classname="org.apache.ivy.Main" property="ivy.installed" />
+    <target name="ivy-install" description="Install Ivy" unless="ivy.installed">
+        <echo message="Ivy runtime not found on Ant claspath. Downloading..."/>
+        <mkdir dir="${user.home}/.ant/lib"/>
+        <get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.4.0/ivy-2.4.0.jar"/>
+        <echo message="Installation complete, please retry the operation.  Note that from an IDE like Eclipse, you may need to update your runtime preferences."/>
+        <fail />
+    </target>
+
+    <target name="ivy-get" depends="ivy-install">
+        <ivy:resolve/>
+        <ivy:retrieve conf="compile" pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]"/>
+    </target>
+
+    <target name="ivy-tree">
+        <ivy:dependencytree />
+    </target>
+
+    <target name="ivy-clean" description="Cleans this project and additionally clears Ivy cache">
+        <ivy:cleancache/>
+    </target>
+
+</project>

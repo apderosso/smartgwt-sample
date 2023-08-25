@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"> 
+
+    <!-- 
+        Dynamic Compression, as documented at 
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/CompressionFilter.html
+    -->
+    <!--
+    <filter>
+        <filter-name>CompressionFilter</filter-name>
+        <filter-class>com.isomorphic.servlet.CompressionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CompressionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    -->
+
+    <!-- 
+        Initializes the SmartGWT Server Framework, as documented at
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/base/InitListener.html.
+        
+        Also see:
+        https://www.smartclient.com/smartgwt/javadoc/com/smartgwt/client/docs/ServerInit.html
+    -->
+    <listener>
+         <listener-class>com.isomorphic.base.InitListener</listener-class>
+    </listener>
+
+    <!-- Initializes Spring Framework -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext-*.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- 
+        Handles built-in SmartClient datasource operations, as documented at
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/IDACall.html
+    -->
+    <servlet>
+        <servlet-name>IDACall</servlet-name>
+        <servlet-class>com.isomorphic.servlet.IDACall</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IDACall</servlet-name>
+        <url-pattern>/sample/sc/IDACall/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- 
+        The RESTHandler servlet is like IDACall, but for REST requests, and is documented at
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/RESTHandler.html.
+        
+        Also see:
+        https://www.smartclient.com/smartgwt/javadoc/com/smartgwt/client/data/RestDataSource.html     
+    -->
+    <!-- 
+    <servlet>
+        <servlet-name>RESTHandler</servlet-name>
+        <servlet-class>com.isomorphic.servlet.RESTHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RESTHandler</servlet-name>
+        <url-pattern>/sample/sc/RESTHandler/*</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <!-- 
+      Returns Javascript representations of the dataSources whose ID's are passed to it. 
+      It is an alternative to using the <loadDS> JSP tag.  In other words, you don't 
+      necessarily need it if you're using the loadDS tag, although some tools may expect 
+      that it's configured (e.g., the Admin Console's DataSource editor).  
+      
+      For further discussion, please refer to
+      https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/DataSourceLoader.html
+    -->
+    <!--
+    <servlet>
+        <servlet-name>DataSourceLoader</servlet-name>
+        <servlet-class>com.isomorphic.servlet.DataSourceLoader</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataSourceLoader</servlet-name>
+        <url-pattern>/sample/sc/DataSourceLoader</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <!-- 
+        The projectLoader servlet returns a JavaScript fragment that when executed loads a named project and caches all 
+        (or a specified subset) of its screens up-front.
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/ProjectLoaderServlet.html
+        
+        Enabled to facilitate one-step Reify integration.
+        https://www.smartclient.com/smartclient-latest/isomorphic/system/reference/?id=group..reifyForDevelopers
+
+        Also see:
+        https://www.smartclient.com/smartgwt-latest/javadoc/com/smartgwt/client/rpc/RPCManager.html#loadProject-java.lang.String-java.util.Map-java.lang.String-
+        https://www.smartclient.com/smartgwt-latest/javadoc/com/smartgwt/client/rpc/RPCManager.html#cacheScreens-java.lang.String:A-com.smartgwt.client.core.Function-
+    -->
+    <servlet>
+        <servlet-name>ProjectLoader</servlet-name>
+        <servlet-class>com.isomorphic.servlet.ProjectLoaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProjectLoader</servlet-name>
+        <url-pattern>/sample/sc/projectLoader</url-pattern>
+    </servlet-mapping>
+
+    <!-- 
+        The screenLoader servlet loads screen definitions in javascript notation, as documented at
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/ScreenLoaderServlet.html.
+
+        Enabled to facilitate one-step Reify integration.
+        https://www.smartclient.com/smartclient-latest/isomorphic/system/reference/?id=group..reifyForDevelopers
+        
+        Also see:
+        https://www.smartclient.com/smartgwt/javadoc/com/smartgwt/client/docs/ComponentXML.html
+    -->
+    <servlet>
+        <servlet-name>ScreenLoader</servlet-name>
+        <servlet-class>com.isomorphic.servlet.ScreenLoaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ScreenLoader</servlet-name>
+        <url-pattern>/sample/sc/screenLoader</url-pattern>
+    </servlet-mapping>
+
+    <!-- 
+        Proxies http requests for the client (browser), as documented at
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/HttpProxyServlet.html
+    -->
+    <!--
+    <servlet>
+        <servlet-name>HttpProxy</servlet-name>
+        <servlet-class>com.isomorphic.servlet.HttpProxyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HttpProxy</servlet-name>
+        <url-pattern>/sample/sc/HttpProxy/*</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <!-- 
+         The PreCache servlet initializes when the servlet engine starts up and pre-loads 
+         data need for all client requests.  This is optional, and improves performance
+         of the first few page requests.  PreCache cannot be invoked by a browser, because
+         there is no "servlet-mapping" defined for it.
+
+         PreCache is disabled by default because of an issue when debugging
+         the project for the first time. However, it can be safely enabled
+         when compiling with the GWT compiler prior to deployment. See
+         the README.txt for more information.
+         
+         For further discussion, please refer to the documentation at
+         https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/PreCache.html
+    -->
+    <!--
+    <servlet>
+        <servlet-name>PreCache</servlet-name>
+        <servlet-class>com.isomorphic.servlet.PreCache</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    -->
+
+    <!-- 
+        The FileDownload servlet downloads static files, like a webserver.  In this case,
+        we're configured to:
+         
+            * Serve ISC modules compressed, with expires headers
+            * Serve ISC development modules compressed, with expires headers
+            * Serve skin assets with expires headers 
+            * Serve the contents of the helpers/ directory with expires headers
+         
+        For further discussion, please refer to documentation at
+        https://www.smartclient.com/smartgwtee-latest/server/javadoc/com/isomorphic/servlet/FileDownload.html                            
+    -->
+    <!-- 
+    <servlet>
+        <servlet-name>FileDownload</servlet-name>
+        <servlet-class>com.isomorphic.servlet.FileDownload</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileDownload</servlet-name>
+        <url-pattern>/sample/sc/system/modules/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDownload</servlet-name>
+        <url-pattern>/sample/sc/system/development/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDownload</servlet-name>
+        <url-pattern>/sample/sc/system/reference/skin/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDownload</servlet-name>
+        <url-pattern>/sample/sc/system/helpers/*</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <!--
+        The samples database is exposed at the following JNDI endpoint.  You can find 
+        configurations for it at
+        
+            * src/main/resources/server.properties
+            * src/etc/jetty/jetty-env.xml
+            * src/etc/tomcat/context.xml
+    -->
+    <resource-ref>
+        <res-ref-name>jdbc/samples</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+</web-app>
+
+    
