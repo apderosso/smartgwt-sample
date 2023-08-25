@@ -1,5 +1,7 @@
 package com.example.sample.client.auth;
 
+import com.example.sample.shared.Messages;
+import com.google.gwt.core.client.GWT;
 import com.smartgwt.client.rpc.RPCManager;
 import com.smartgwt.client.rpc.RPCRequest;
 import com.smartgwt.client.rpc.RPCResponse;
@@ -23,6 +25,8 @@ import com.smartgwt.client.widgets.layout.VLayout;
  * Refer to http://www.smartclient.com/smartgwtee-latest/javadoc/com/smartgwt/client/docs/Relogin.html.
  */
 final class LoginWindow extends Window {
+
+    private static final Messages MESSAGES = GWT.create(Messages.class);
 
     private final DynamicForm form = new DynamicForm();
 
@@ -49,7 +53,7 @@ final class LoginWindow extends Window {
         form.addSubmitValuesHandler(valuesHandler);
 
         final IButton button = new IButton();
-        button.setTitle("Login");
+        button.setTitle(MESSAGES.login());
         button.setWidth(80);
         button.addClickHandler(valuesHandler);
 
