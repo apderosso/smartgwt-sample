@@ -45,7 +45,14 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava-gwt</artifactId>
-            <version>20.0</version>
+            <version>32.1.2-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -58,6 +65,14 @@
                     <moduleName>com.example.sample.sample</moduleName>
                     <moduleShortName>sample</moduleShortName>
                     <deploy>${project.build.directory}/${project.build.finalName}/WEB-INF/deploy</deploy>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

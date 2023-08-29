@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.example.sample.shared.constants.DS;
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Maps;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -42,8 +41,8 @@ public final class AuthenticationManager {
     private static AuthenticityToken token;
     private static final LoginWindow window = new LoginWindow();
 
-    private static final DataSource usersDataSource = DataSource.get("User");
-    private static final DataSource rolesDataSource = DataSource.get("UserRole");
+    private static final DataSource usersDataSource = DataSource.get(DS.User.DATASOURCE);
+    private static final DataSource rolesDataSource = DataSource.get(DS.UserRole.DATASOURCE);
 
     static {
         /*
@@ -92,22 +91,18 @@ public final class AuthenticationManager {
      */
     public static void loadUserProfile() {
         final DSRequest usersRequest = new DSRequest(DSOperationType.FETCH);
-        usersRequest.setOperationId("fetchCurrentUser");
+        usersRequest.setOperationId(DS.User.OPERATION_ID_FETCH_CURRENT_USER);
         usersRequest.setCallback((dsResponse, data, dsRequest) -> userProfile = dsResponse.getData()[0]);
         usersDataSource.execute(usersRequest);
 
         final DSRequest authoritiesRequest = new DSRequest(DSOperationType.FETCH);
-        authoritiesRequest.setOperationId("fetchByCurrentUser");
+        authoritiesRequest.setOperationId(DS.UserRole.OPERATION_ID_FETCH_BY_CURRENT_USER);
         authoritiesRequest.setCallback((dsResponse, data, dsRequest) -> userAuthorizations = dsResponse.getDataAsRecordList());
         rolesDataSource.execute(authoritiesRequest);
     }
 
-    public static Record getCurrentUser() {
-        return userProfile;
-    }
-
     public static String getCurrentUserName() {
-        return userProfile.getAttribute("username");
+        return userProfile.getAttribute(DS.User.USERNAME);
     }
 
     public static boolean isUserInRole(final Roles role) {
@@ -178,12 +173,10 @@ public final class AuthenticationManager {
         var tokenValue = token.getAttribute('data-value');
         
         if (tokenName && tokenValue) {
-            
             $entry(@com.example.sample.client.auth.AuthenticationManager::setAuthenticityToken(Ljava/lang/String;Ljava/lang/String;)(tokenName, tokenValue));
             
             var retry = $wnd.document.getElementById('rememberme_enabled').getAttribute('data-value');
             $entry(@com.example.sample.client.auth.AuthenticationManager::resubmitOnLoginRequired = retry);
-            
         } else {
             $wnd.isc.logWarn("Authenticity token not found in bootstrap html: \n" + $wnd.document.documentElement.outerHTML, "Authentication");
         }
@@ -210,7 +203,12 @@ public final class AuthenticationManager {
         params.put(name, value);
 
         // remove any parameter without a value
-        final Map<String, String> filtered = Maps.filterValues(params, Predicates.notNull());
+        final Map<String, String> filtered = new LinkedHashMap<>();
+        params.forEach((k, v) -> {
+            if (v != null) {
+                filtered.put(k, v);
+            }
+        });
 
         // recompose
         if (filtered.isEmpty()) {

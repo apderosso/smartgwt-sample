@@ -27,6 +27,7 @@
         <spring.version>5.3.27</spring.version>
         <spring.security.version>5.8.3</spring.security.version>
 
+        <slf4j.version>2.0.7</slf4j.version>
         <lombok.version>1.18.26</lombok.version>
     </properties>
 
