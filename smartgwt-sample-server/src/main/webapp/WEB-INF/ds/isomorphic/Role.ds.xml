@@ -1,9 +1,8 @@
-<DataSource serverType="sql" schema="PUBLIC"
-            ID="Role"
+<DataSource ID="Role"
+            serverType="sql"
+            schema="PUBLIC"
             tableName="allowedroles">
-
     <fields>
         <field name="role" type="text" required="true" primaryKey="true"/>
     </fields>
-
 </DataSource>

@@ -1,12 +1,12 @@
-<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels"
-            ID="Office"
+<DataSource ID="Office"
+            serverType="sql"
+            dbName="ClassicModels"
+            schema="PUBLIC"
             tableName="offices">
-
     <!--
       Classic Models Inc. has 7 offices worldwide (San Francisco, Boston, NYC, Paris, Tokyo, Sydney, London) and is headquartered in San Francisco, CA.
       Based on geography each office is assigned to a sales territory (APAC, NA, EMEA or JAPAN)
      -->
-
     <fields>
         <field name="officeCode" type="text" length="5" primaryKey="true"/>
         <field name="city" type="text" length="50" required="true"/>
@@ -25,5 +25,4 @@
             </valueMap>
         </field>
     </fields>
-
 </DataSource>

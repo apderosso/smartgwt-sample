@@ -1,22 +1,25 @@
-<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels"
-            ID="OrderDetail"
-            tableName="orderDetails">
+<DataSource ID="OrderDetail"
+            serverType="sql"
+            dbName="ClassicModels"
+            schema="PUBLIC"
+            tableName="orderDetails"
+            xmlns:fmt="WEB-INF/">
+    <fmt:bundle basename="com.example.sample.shared.Messages"/>
 
     <!--
       Each order contains an average of 9 unique products (order line items) with an average quantity of 35 per product (so there is an average total of 9x35 items per order).
       Each order line item reflects the negotiated price per product (which is based on the corresponding product’s MSRP) as well as the quantity per product.
       -->
-
     <fields>
-        <field name="orderNumber" type="integer" primaryKey="true"
-               foreignKey="Order.orderNumber"/>
-        <field name="productCode" title="Product" type="text" primaryKey="true"
-               foreignKey="Product.productCode"
-               displayField="productName"/>
+        <field name="orderNumber" type="integer" primaryKey="true" foreignKey="Order.orderNumber"/>
+        <field name="productCode" type="text" primaryKey="true" foreignKey="Product.productCode" displayField="productName">
+            <title>
+                <fmt:message key="product"/>
+            </title>
+        </field>
         <field name="productName" includeFrom="Product.productName" hidden="true"/>
         <field name="orderLineNumber" type="integer" required="true"/>
         <field name="quantityOrdered" type="integer" required="true"/>
         <field name="priceEach" type="float" decimalPad="2" decimalPrecision="2" required="true"/>
     </fields>
-
 </DataSource>

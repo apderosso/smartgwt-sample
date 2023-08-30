@@ -1,7 +1,10 @@
-<DataSource serverType="sql" schema="PUBLIC" dbName="ClassicModels"
-            ID="Customer"
-            tableName="customers">
-
+<DataSource ID="Customer"
+            serverType="sql"
+            dbName="ClassicModels"
+            schema="PUBLIC"
+            tableName="customers"
+            xmlns:fmt="WEB-INF/">
+    <fmt:bundle basename="com.example.sample.shared.Messages"/>
     <useAnsiJoins>true</useAnsiJoins>
 
     <!--
@@ -11,7 +14,6 @@
       
       Each customer has a credit limit which determines their maximum outstanding balance.
      -->
-
     <fields>
         <field name="customerNumber" type="sequence" primaryKey="true"/>
         <field name="customerName" type="text" length="50" required="true"/>
@@ -24,13 +26,14 @@
         <field name="state" type="text" length="50"/>
         <field name="postalCode" type="text" length="15"/>
         <field name="country" type="text" length="50" required="true"/>
-        <field name="salesRepEmployeeNumber" type="integer"
-               foreignKey="Employee.employeeNumber" joinType="outer"
-               displayField="salesRepEmployeeName" foreignDisplayField="lastName"
-               title="Sales Rep"/>
+        <field name="salesRepEmployeeNumber" type="integer" foreignKey="Employee.employeeNumber" joinType="outer" displayField="salesRepEmployeeName"
+               foreignDisplayField="lastName">
+            <title>
+                <fmt:message key="salesRep"/>
+            </title>
+        </field>
         <field name="salesRepEmployeeName" includeFrom="Employee.lastName" hidden="true"/>
         <field name="creditLimit" type="float"/>
         <field name="territory" includeFrom="Employee.Office.territory"/>
     </fields>
-
 </DataSource>
