@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Component
-public class ApplicationContextProvider implements ApplicationContextAware {
+public class ApplicationContextHolder implements ApplicationContextAware {
 
     @Getter
     @Setter(AccessLevel.PRIVATE)

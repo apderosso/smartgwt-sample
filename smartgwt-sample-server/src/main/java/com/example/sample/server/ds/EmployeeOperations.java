@@ -1,5 +1,6 @@
 package com.example.sample.server.ds;
 
+import com.example.sample.shared.constants.DS;
 import com.isomorphic.criteria.DefaultOperators;
 import com.isomorphic.datasource.DSRequest;
 import com.isomorphic.datasource.DSResponse;
@@ -18,16 +19,16 @@ public final class EmployeeOperations {
     public DSResponse add(final DSRequest dsRequest) throws Exception {
         final DSResponse dsResponse = dsRequest.execute();
 
-        final DSRequest usersRequest = new DSRequest("User", DataSource.OP_ADD, dsRequest.getRPCManager());
-        usersRequest.setFieldValue("username", dsResponse.getFieldValue("email"));
-        usersRequest.setFieldValue("password", "nosecret");
+        final DSRequest usersRequest = new DSRequest(DS.User.DATASOURCE, DataSource.OP_ADD, dsRequest.getRPCManager());
+        usersRequest.setFieldValue(DS.User.USERNAME, dsResponse.getFieldValue(DS.Employee.EMAIL));
+        usersRequest.setFieldValue(DS.User.PASSWORD, "nosecret");
 
         final DSResponse usersResponse = usersRequest.execute();
         dsResponse.addRelatedUpdate(usersResponse);
 
-        final DSRequest rolesRequest = new DSRequest("UserRole", DataSource.OP_ADD, dsRequest.getRPCManager());
-        rolesRequest.setFieldValue("id", usersResponse.getFieldValue("id"));
-        rolesRequest.setFieldValue("role", "USER");
+        final DSRequest rolesRequest = new DSRequest(DS.UserRole.DATASOURCE, DataSource.OP_ADD, dsRequest.getRPCManager());
+        rolesRequest.setFieldValue(DS.UserRole.ID, usersResponse.getFieldValue(DS.User.ID));
+        rolesRequest.setFieldValue(DS.UserRole.ROLE, "USER");
 
         final DSResponse rolesResponse = rolesRequest.execute();
         dsResponse.addRelatedUpdate(rolesResponse);
@@ -41,15 +42,15 @@ public final class EmployeeOperations {
     public DSResponse update(final DSRequest dsRequest) throws Exception {
         final DSResponse dsResponse = dsRequest.execute();
 
-        final Object email = dsRequest.getFieldValue("email");
+        final Object email = dsRequest.getFieldValue(DS.Employee.EMAIL);
         if (email == null) {
             return dsResponse;
         }
 
-        final DSRequest usersRequest = new DSRequest("User", DataSource.OP_UPDATE, dsRequest.getRPCManager());
+        final DSRequest usersRequest = new DSRequest(DS.User.DATASOURCE, DataSource.OP_UPDATE, dsRequest.getRPCManager());
         usersRequest.setAllowMultiUpdate(true);
-        usersRequest.setCriteriaValue("username", dsRequest.getOldValues().get("email"));
-        usersRequest.setFieldValue("username", dsRequest.getFieldValue("email"));
+        usersRequest.setCriteriaValue(DS.User.USERNAME, dsRequest.getOldValues().get(DS.Employee.EMAIL));
+        usersRequest.setFieldValue(DS.User.USERNAME, dsRequest.getFieldValue(DS.Employee.EMAIL));
 
         final DSResponse usersResponse = usersRequest.execute();
         dsResponse.addRelatedUpdate(usersResponse);
@@ -61,20 +62,20 @@ public final class EmployeeOperations {
      * When an employee is removed, also delete their user profile and group enrollment.
      */
     public DSResponse remove(final DSRequest dsRequest) throws Exception {
-        final DSRequest userIdRequest = new DSRequest("User", DataSource.OP_FETCH, dsRequest.getRPCManager());
-        userIdRequest.addToCriteria("username", DefaultOperators.Equals, dsRequest.getOldValues().get("email"));
-        final Object userId = userIdRequest.execute().getDataMap().get("id");
+        final DSRequest userIdRequest = new DSRequest(DS.User.DATASOURCE, DataSource.OP_FETCH, dsRequest.getRPCManager());
+        userIdRequest.addToCriteria(DS.User.USERNAME, DefaultOperators.Equals, dsRequest.getOldValues().get(DS.Employee.EMAIL));
+        final Object userId = userIdRequest.execute().getDataMap().get(DS.User.ID);
 
         final DSResponse dsResponse = dsRequest.execute();
 
-        final DSRequest rolesRequest = new DSRequest("UserRole", DataSource.OP_REMOVE, dsRequest.getRPCManager());
-        rolesRequest.setFieldValue("id", userId);
+        final DSRequest rolesRequest = new DSRequest(DS.UserRole.DATASOURCE, DataSource.OP_REMOVE, dsRequest.getRPCManager());
+        rolesRequest.setFieldValue(DS.UserRole.ID, userId);
         rolesRequest.setAllowMultiUpdate(true);
         final DSResponse rolesResponse = rolesRequest.execute();
         dsResponse.addRelatedUpdate(rolesResponse);
 
-        final DSRequest usersRequest = new DSRequest("User", DataSource.OP_REMOVE, dsRequest.getRPCManager());
-        usersRequest.setFieldValue("id", userId);
+        final DSRequest usersRequest = new DSRequest(DS.User.DATASOURCE, DataSource.OP_REMOVE, dsRequest.getRPCManager());
+        usersRequest.setFieldValue(DS.User.ID, userId);
         final DSResponse usersResponse = usersRequest.execute();
         dsResponse.addRelatedUpdate(usersResponse);
 

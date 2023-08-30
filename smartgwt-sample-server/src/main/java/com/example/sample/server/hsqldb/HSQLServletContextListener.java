@@ -40,7 +40,6 @@ public class HSQLServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(final ServletContextEvent sce) {
         try {
-
             final ServletContext context = sce.getServletContext();
 
             final String path = context.getRealPath(DATA_DIR_PROPERTY);

@@ -17,12 +17,12 @@ public class SpringBeanFactory implements ISpringBeanFactory {
 
     @Override
     public Object getBeanFactory(final ServletContext servletContext) {
-        return ApplicationContextProvider.getContext();
+        return ApplicationContextHolder.getContext();
     }
 
     @Override
     public Object getBean(final ServletContext servletContext, final String s) {
-        return ApplicationContextProvider.getContext().getBean(s);
+        return ApplicationContextHolder.getContext().getBean(s);
     }
 
 }

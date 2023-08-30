@@ -22,7 +22,6 @@ import org.springframework.web.filter.GenericFilterBean;
  * when automatic retry is unnecessary.
  * 
  * See /index.jsp and com.example.sample.client.auth.AuthenticationManager.
- * 
  */
 public class ReloginSupportFilter extends GenericFilterBean {
 
