@@ -66,7 +66,23 @@
             </dependency>
             <dependency>
                 <groupId>com.isomorphic.smartgwt.enterprise</groupId>
+                <artifactId>isomorphic-network</artifactId>
+                <version>${smartgwt.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.isomorphic.smartgwt.enterprise</groupId>
                 <artifactId>isomorphic-spring</artifactId>
+                <version>${smartgwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.isomorphic.smartgwt.enterprise</groupId>
+                <artifactId>isomorphic-sql</artifactId>
+                <version>${smartgwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.isomorphic.smartgwt.enterprise</groupId>
+                <artifactId>isomorphic-tools</artifactId>
                 <version>${smartgwt.version}</version>
             </dependency>
         </dependencies>
@@ -178,6 +194,10 @@
                 </plugin>
 
                 <!-- Update plugin management plugins -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                </plugin>
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.4.0</version>

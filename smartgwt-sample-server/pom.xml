@@ -39,53 +39,36 @@
             <artifactId>spring-security-config</artifactId>
         </dependency>
 
-        <!-- Use SQLDataSources -->
-        <dependency>
-            <groupId>com.isomorphic.smartgwt.enterprise</groupId>
-            <artifactId>isomorphic-sql</artifactId>
-            <version>${smartgwt.version}</version>
-        </dependency>
-
-        <!-- Add the Network Performance module -->
         <dependency>
             <groupId>com.isomorphic.smartgwt.enterprise</groupId>
             <artifactId>isomorphic-network</artifactId>
-            <version>${smartgwt.version}</version>
             <type>pom</type>
         </dependency>
-
         <dependency>
             <groupId>com.isomorphic.smartgwt.enterprise</groupId>
             <artifactId>isomorphic-spring</artifactId>
         </dependency>
-
-        <!-- Toolbox -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <groupId>com.isomorphic.smartgwt.enterprise</groupId>
+            <artifactId>isomorphic-sql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.isomorphic.smartgwt.enterprise</groupId>
+            <artifactId>isomorphic-tools</artifactId>
         </dependency>
 
         <!-- Use a context listener to start the sample database -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.1</version>
+            <version>2.7.2</version>
         </dependency>
 
-        <!--
-          Uncomment to include the SmartGWT "Admin Console" tool's server component, various data
-          importers / exporters, and the server-side components of the BatchUploader.
-          Refer to 'Tools Deployment' documentation topic.
-         -->
-        <!--
         <dependency>
-            <groupId>com.isomorphic.smartgwt.enterprise</groupId>
-            <artifactId>isomorphic-tools</artifactId>
-            <version>${smartgwt.version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.2-jre</version>
         </dependency>
-        -->
-
     </dependencies>
 
     <build>

@@ -7,6 +7,7 @@ import com.example.sample.client.auth.AuthenticationManager.Roles;
 import com.example.sample.shared.Messages;
 import com.example.sample.shared.constants.DS;
 import com.example.sample.shared.constants.IDs;
+import com.example.sample.shared.constants.Icons;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.UmbrellaException;
@@ -100,7 +101,7 @@ public final class SampleEntryPoint implements EntryPoint {
         grid.setListEndEditAction(RowEndEditAction.NEXT);
         grid.setCanRemoveRecords(AuthenticationManager.isUserInRole(Roles.ADMIN));
 
-        final ToolStripButton refresh = new ToolStripButton(MESSAGES.refresh(), "[SKIN]/actions/refresh.png");
+        final ToolStripButton refresh = new ToolStripButton(MESSAGES.refresh(), Icons.REFRESH);
         refresh.setTooltip(MESSAGES.refreshTooltip());
         refresh.addClickHandler(event -> grid.refreshData());
 

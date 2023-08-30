@@ -15,7 +15,6 @@ import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.data.RecordList;
-import com.smartgwt.client.rpc.LoginRequiredCallback;
 import com.smartgwt.client.rpc.RPCManager;
 import com.smartgwt.client.rpc.RPCRequest;
 import com.smartgwt.client.rpc.RPCResponse;
@@ -51,31 +50,25 @@ public final class AuthenticationManager {
          * the RPCManager default here, and the LoginWindow will reach back to reset it again with a new token on loginSuccess.
          */
         final int retryAttemptThreshold = 2;
-        RPCManager.setLoginRequiredCallback(new LoginRequiredCallback() {
+        RPCManager.setLoginRequiredCallback((transactionNum, rpcRequest, rpcResponse) -> {
+            setAuthenticityToken(rpcResponse);
 
-            @Override
-            public void loginRequired(final int transactionNum, final RPCRequest rpcRequest, final RPCResponse rpcResponse) {
+            /*
+             * If remember-me services have been requested, spring should normally allow resubmission once we have the right csrf token... But you could end up
+             * though with a case where the remembered creds have become invalid - the key changes at the server, for example - and you really do need to
+             * authenticate again. Retry only so many times.
+             */
+            if (resubmitOnLoginRequired && retryCount < retryAttemptThreshold) {
+                // if and when this dummy request goes unsuspended and the callback fires, we can reset the count
+                final RPCRequest ping = new RPCRequest();
+                ping.setWillHandleError(true);
+                RPCManager.sendRequest(ping, (response, rawData, request) -> retryCount = 0);
 
-                setAuthenticityToken(rpcResponse);
+                retryCount++;
+                RPCManager.resendTransaction();
 
-                /*
-                 * If remember-me services have been requested, spring should normally allow resubmission once we have the right csrf token... But you could end
-                 * up though with a case where the remembered creds have become invalid - the key changes at the server, for example - and you really do need to
-                 * authenticate again. Retry only so many times.
-                 */
-                if (resubmitOnLoginRequired && retryCount < retryAttemptThreshold) {
-
-                    // if and when this dummy request goes unsuspended and the callback fires, we can reset the count
-                    final RPCRequest ping = new RPCRequest();
-                    ping.setWillHandleError(true);
-                    RPCManager.sendRequest(ping, (response, rawData, request) -> retryCount = 0);
-
-                    retryCount++;
-                    RPCManager.resendTransaction();
-
-                } else {
-                    window.show();
-                }
+            } else {
+                window.show();
             }
         });
 
