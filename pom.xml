@@ -15,19 +15,20 @@
     </modules>
 
     <properties>
+        <!-- GWT & SmartGWT-->
         <gwt.version>2.10.0</gwt.version>
-        <smartgwt.version>13.0-p20230818</smartgwt.version>
-        <servlets.version>3.1.0</servlets.version>
+        <smartgwt.version>13.0-p20230831</smartgwt.version>
+        <servlets.version>5.0.0</servlets.version>
 
         <!-- Maven -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
 
         <!-- Spring -->
-        <spring.version>5.3.29</spring.version>
-        <spring.security.version>5.8.6</spring.security.version>
+        <spring.version>6.0.11</spring.version>
+        <spring.security.version>6.1.3</spring.security.version>
 
-        <slf4j.version>2.0.7</slf4j.version>
+        <slf4j.version>2.0.9</slf4j.version>
         <lombok.version>1.18.28</lombok.version>
     </properties>
 
@@ -85,9 +86,17 @@
                 <artifactId>isomorphic-tools</artifactId>
                 <version>${smartgwt.version}</version>
             </dependency>
+
+            <!-- Modified version that for Jakarta namespace switch -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.6</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!-- Include Lombok in base pom so it's available in client/server/shared -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -105,8 +114,8 @@
 
         <!-- Repository for SmartGWT components -->
         <repository>
-            <id>[REPOSITORY ID]</id>
-            <url>[REPOSITORY URL</url>
+            <id>gitlab-maven</id>
+            <url>https://git.aa-bts.com/api/v4/groups/3/-/packages/maven</url>
         </repository>
     </repositories>
 
@@ -140,6 +149,7 @@
                 <configuration>
                     <skipModule>true</skipModule>
                     <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
+                    <moduleName/>
                 </configuration>
             </plugin>
         </plugins>
@@ -148,7 +158,7 @@
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>10.0.15</version>
+                    <version>11.0.16</version>
                 </plugin>
                 <plugin>
                     <groupId>com.isomorphic</groupId>
@@ -165,10 +175,11 @@
                 <plugin>
                     <groupId>net.ltgt.gwt.maven</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
-                    <!-- TODO Version 1.0.1 creates issues -->
+                    <!-- Cannot upgrade beyond 1.0.0 due to issue below on Windows. Version 1.0.0 requires later plexus-utils -->
                     <version>1.0.0</version>
                     <dependencies>
-                        <!-- Changing this version is necessary to be able to stop the codeserver with Ctl + C on windows -->
+                        <!-- Changing this version is necessary to be able to stop the codeserver with Ctl + C (or stopping in IDE) on windows -->
+                        <!-- https://github.com/tbroyer/gwt-maven-plugin/issues/110 -->
                         <dependency>
                             <groupId>org.codehaus.plexus</groupId>
                             <artifactId>plexus-utils</artifactId>
@@ -177,7 +188,7 @@
                     </dependencies>
                     <extensions>true</extensions>
                     <configuration>
-                        <sourceLevel>1.8</sourceLevel>
+                        <sourceLevel>1.8</sourceLevel> <!-- Source level for the client since GWT doesn't support Java syntax above version 8 -->
                         <failOnError>true</failOnError>
                         <skipModule>true</skipModule>
                         <jvmArgs>

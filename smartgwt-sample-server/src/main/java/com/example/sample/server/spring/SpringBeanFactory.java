@@ -1,8 +1,8 @@
 package com.example.sample.server.spring;
 
-import javax.servlet.ServletContext;
-
 import com.isomorphic.interfaces.ISpringBeanFactory;
+
+import jakarta.servlet.ServletContext;
 
 /**
  * Custom implementation of {@link ISpringBeanFactory} since SmartGWT doesn't correctly look up the Spring context.

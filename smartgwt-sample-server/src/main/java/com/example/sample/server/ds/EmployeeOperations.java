@@ -1,6 +1,10 @@
 package com.example.sample.server.ds;
 
+import java.util.List;
+
+import com.example.sample.server.util.Util;
 import com.example.sample.shared.constants.DS;
+import com.example.sample.shared.datasource.bean.User;
 import com.isomorphic.criteria.DefaultOperators;
 import com.isomorphic.datasource.DSRequest;
 import com.isomorphic.datasource.DSResponse;
@@ -64,7 +68,7 @@ public final class EmployeeOperations {
     public DSResponse remove(final DSRequest dsRequest) throws Exception {
         final DSRequest userIdRequest = new DSRequest(DS.User.DATASOURCE, DataSource.OP_FETCH, dsRequest.getRPCManager());
         userIdRequest.addToCriteria(DS.User.USERNAME, DefaultOperators.Equals, dsRequest.getOldValues().get(DS.Employee.EMAIL));
-        final Object userId = userIdRequest.execute().getDataMap().get(DS.User.ID);
+        final Object userId = Util.getFirst((List<User>) userIdRequest.execute().getDataList()).getId();
 
         final DSResponse dsResponse = dsRequest.execute();
 
