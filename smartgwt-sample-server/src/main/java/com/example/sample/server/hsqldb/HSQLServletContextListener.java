@@ -17,12 +17,12 @@ package com.example.sample.server.hsqldb;
 
 import static org.hsqldb.Database.CLOSEMODE_NORMAL;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-
 import org.hsqldb.Server;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
 /**
  * A ServletContextListener that just starts and stops the sample HSQL database server with the web application. Unnecessary, of course, when using other than
