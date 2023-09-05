@@ -97,9 +97,16 @@
     </dependencies>
 
     <repositories>
+        <!-- Local Repo to include manually modified jar for Jakarta namespace rename -->
         <repository>
-            <id>gitlab-maven</id>
-            <url>https://git.aa-bts.com/api/v4/groups/3/-/packages/maven</url>
+            <id>local-repo</id>
+            <url>file://${maven.multiModuleProjectDirectory}/repo</url>
+        </repository>
+
+        <!-- Repository for SmartGWT components -->
+        <repository>
+            <id>[REPOSITORY ID]</id>
+            <url>[REPOSITORY URL</url>
         </repository>
     </repositories>
 
