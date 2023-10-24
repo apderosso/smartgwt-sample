@@ -9,6 +9,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Stores the Spring {@link ApplicationContext} in a static variables for use by other classes.
+ */
 @Component
 public class ApplicationContextHolder implements ApplicationContextAware {
 

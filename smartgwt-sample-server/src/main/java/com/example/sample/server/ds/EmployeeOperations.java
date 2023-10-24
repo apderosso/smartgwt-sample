@@ -12,8 +12,8 @@ import com.isomorphic.datasource.DataSource;
 
 /**
  * A collection of methods to be called during Employee CRUD operations. See the DmiOverview documentation topic for background.
- * 
- * https://www.smartclient.com/smartgwtee-latest/javadoc/com/smartgwt/client/docs/DmiOverview.html
+ *
+ * <a href="https://www.smartclient.com/smartgwtee-latest/javadoc/com/smartgwt/client/docs/DmiOverview.html">DmiOverview.html</a>
  */
 public final class EmployeeOperations {
 

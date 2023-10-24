@@ -8,6 +8,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.example.sample.server.spring.ApplicationContextHolder;
 
+/**
+ * {@link InvocationHandler} for {@link com.example.sample.shared.Messages}.
+ */
 public class MessagesHandler implements InvocationHandler {
 
     @Override

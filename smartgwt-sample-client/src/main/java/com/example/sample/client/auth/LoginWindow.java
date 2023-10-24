@@ -22,8 +22,8 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 /**
  * A simple Window providing an interface for relogin operations via Spring Security, including CSRF support, by way of the given AuthenticationManager.
- * 
- * Refer to https://smartclient.com/smartgwtee-latest/javadoc/com/smartgwt/client/docs/Relogin.html.
+ *
+ * Refer to <a href="https://smartclient.com/smartgwtee-latest/javadoc/com/smartgwt/client/docs/Relogin.html">Relogin.html</a>.
  */
 final class LoginWindow extends Window {
 

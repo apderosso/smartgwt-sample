@@ -29,6 +29,11 @@ import com.zaxxer.hikari.HikariDataSource;
 @ImportResource("classpath:applicationContext-security.xml")
 public class Config {
 
+    /**
+     * Embedded HSQLDB data source.
+     * 
+     * @return {@link HikariDataSource}
+     */
     @Bean
     public DataSource dataSource() {
         final HikariDataSource dataSource = new HikariDataSource();
@@ -38,6 +43,11 @@ public class Config {
         return dataSource;
     }
 
+    /**
+     * Message source for internationalization.
+     * 
+     * @return {@link MessageSource}
+     */
     @Bean
     public MessageSource messageSource() {
         final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -45,6 +55,11 @@ public class Config {
         return messageSource;
     }
 
+    /**
+     * Task executor for asynchronous tasks.
+     * 
+     * @return {@link Executor}
+     */
     @Bean
     public Executor taskExecutor() {
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -54,6 +69,12 @@ public class Config {
         return executor;
     }
 
+    /**
+     * Task decorator that copies the {@link RequestAttributes}, {@link LocaleContext}, {@link SecurityContext} and MDC context map from the calling thread to
+     * the task thread.
+     * 
+     * @return {@link TaskDecorator}
+     */
     @Bean
     public TaskDecorator taskDecorator() {
         return runnable -> {
