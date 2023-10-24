@@ -17,19 +17,19 @@
     <properties>
         <!-- GWT & SmartGWT-->
         <gwt.version>2.10.0</gwt.version>
-        <smartgwt.version>13.0-p20230831</smartgwt.version>
+        <smartgwt.version>13.0-p20231021</smartgwt.version>
         <servlets.version>5.0.0</servlets.version>
 
         <!-- Maven -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
 
         <!-- Spring -->
-        <spring.version>6.0.11</spring.version>
-        <spring.security.version>6.1.3</spring.security.version>
+        <spring.version>6.0.13</spring.version>
+        <spring.security.version>6.1.5</spring.security.version>
 
         <slf4j.version>2.0.9</slf4j.version>
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -158,7 +158,7 @@
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>11.0.16</version>
+                    <version>11.0.17</version>
                 </plugin>
                 <plugin>
                     <groupId>com.isomorphic</groupId>
@@ -218,17 +218,17 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.4.0</version>
+                    <version>3.4.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.6.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.16.0</version>
+                    <version>2.16.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -265,14 +265,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
             </plugin>
 
             <!-- Generates Maven test results report -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.1</version>
             </plugin>
 
             <!-- Generates a report about the version of Maven artifacts -->
